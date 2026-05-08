@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="theme-color" content="#FF8E3C" />
+<title>Canoodle — A dating app for dogs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+<!-- Paw print background pattern (rendered via CSS) -->
+<div class="bg-pattern" aria-hidden="true"></div>
+
+<div id="phone" class="phone">
+
+  <!-- Fake iOS status bar -->
+  <div class="status-bar">
+    <span class="status-time">9:41</span>
+    <span class="status-icons">
+      <svg width="18" height="12" viewBox="0 0 18 12"><path fill="currentColor" d="M1 7h2v4H1zM5 5h2v6H5zM9 3h2v8H9zM13 1h2v10h-2z"/></svg>
+      <svg width="16" height="12" viewBox="0 0 16 12"><path fill="currentColor" d="M8 2.5C5.4 2.5 3.1 3.5 1.4 5.1L0 3.7C2 1.4 5 0 8 0s6 1.4 8 3.7l-1.4 1.4C12.9 3.5 10.6 2.5 8 2.5zm0 4c-1.5 0-2.8.5-3.9 1.5L2.7 6.6C4.2 5.2 6 4.5 8 4.5s3.8.7 5.3 2.1l-1.4 1.4C10.8 7 9.5 6.5 8 6.5zm0 4c-.6 0-1.1.2-1.5.6L8 12.7l1.5-1.5c-.4-.4-.9-.7-1.5-.7z"/></svg>
+      <svg width="26" height="12" viewBox="0 0 26 12"><rect x="0.5" y="0.5" width="22" height="11" rx="3" stroke="currentColor" fill="none"/><rect x="2" y="2" width="19" height="8" rx="1.5" fill="currentColor"/><rect x="23" y="4" width="2" height="4" rx="1" fill="currentColor"/></svg>
+    </span>
+  </div>
+
+  <!-- WELCOME SCREEN -->
+  <section id="page-welcome" class="page page-welcome active">
+    <div class="welcome-bg"></div>
+    <div class="welcome-blobs" aria-hidden="true">
+      <span class="blob blob-1"></span>
+      <span class="blob blob-2"></span>
+      <span class="blob blob-3"></span>
+    </div>
+    <div class="welcome-content">
+      <div class="welcome-top">
+        <div class="welcome-hero" id="welcome-hero">
+          <div class="hero-card hero-card-back" id="hero-card-back"></div>
+          <div class="hero-card hero-card-mid" id="hero-card-mid"></div>
+          <div class="hero-card hero-card-front" id="hero-card-front">
+            <img id="hero-photo-front" alt="" />
+            <div class="hero-card-grad"></div>
+            <div class="hero-card-name" id="hero-name-front">Tofu</div>
+            <div class="hero-card-stamp">SNIFF</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="welcome-bottom">
+        <h1 class="brand-name" id="brand-name">
+          <span style="--i:0">c</span><span style="--i:1">a</span><span style="--i:2">n</span><span style="--i:3">o</span><span style="--i:4">o</span><span style="--i:5">d</span><span style="--i:6">l</span><span style="--i:7">e</span>
+        </h1>
+        <h2 class="welcome-title">Your dog deserves<br/>friends. <em>Real</em> ones.</h2>
+        <p class="welcome-sub">A dating app for dogs.</p>
+        <button class="btn btn-primary btn-full btn-welcome" id="btn-start">
+          <span>Let's sniff</span>
+          <span class="btn-welcome-arrow">→</span>
+        </button>
+        <a class="welcome-signin" href="#" onclick="event.preventDefault(); showToast('Already on the pack? Welcome back. (Demo skips sign-in.)')">
+          Already swiping? <strong>Sign in</strong>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SNIFF SCREEN -->
+  <section id="page-sniff" class="page page-sniff">
+    <header class="header">
+      <div class="header-logo">
+        <span class="paw-icon-sm">🐾</span>
+        <span class="header-brand">canoodle</span>
+      </div>
+      <div class="header-right">
+        <div class="streak-pill" title="5 day sniff streak">
+          <span class="streak-flame">🔥</span>
+          <span class="streak-num">5</span>
+        </div>
+        <button class="header-icon" id="btn-filter" aria-label="Filters">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><circle cx="9" cy="6" r="2" fill="white"/><line x1="4" y1="12" x2="20" y2="12"/><circle cx="15" cy="12" r="2" fill="white"/><line x1="4" y1="18" x2="20" y2="18"/><circle cx="11" cy="18" r="2" fill="white"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <div class="tail-tales-strip" id="tail-tales-strip"></div>
+
+    <div class="deck-wrapper">
+      <div id="deck" class="deck"></div>
+      <div id="empty-state" class="empty-state hidden">
+        <div class="empty-emoji">😴</div>
+        <h3>All sniffed out.</h3>
+        <p>You've seen every dog in your radius. Stretch it further or check back tomorrow.</p>
+        <button class="btn btn-secondary" id="btn-reset">Reload the pack</button>
+      </div>
+      <div id="swipe-verdict" class="swipe-verdict" aria-hidden="true">
+        <div class="verdict-stamp">
+          <span class="verdict-emoji"></span>
+          <span class="verdict-text"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="action-bar">
+      <div class="action-wrap">
+        <button class="action-btn action-rewind" aria-label="Rewind" id="btn-rewind">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+        </button>
+        <span class="action-label">Rewind</span>
+      </div>
+      <div class="action-wrap">
+        <button class="action-btn action-pass" aria-label="Pass" id="btn-pass">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+        <span class="action-label">Pass</span>
+      </div>
+      <div class="action-wrap">
+        <button class="action-btn action-super" aria-label="Super Sniff" id="btn-super">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </button>
+        <span class="action-label">Super</span>
+      </div>
+      <div class="action-wrap">
+        <button class="action-btn action-sniff" aria-label="Sniff" id="btn-sniff">
+          <span class="heart-burst" aria-hidden="true"></span>
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </button>
+        <span class="action-label">Sniff</span>
+      </div>
+      <div class="action-wrap">
+        <button class="action-btn action-boost" aria-label="Boost" id="btn-boost">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </button>
+        <span class="action-label">Boost</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHAT TAB (Pack) -->
+  <section id="page-chat" class="page page-chat">
+    <header class="header header-title">
+      <h2 class="screen-title">The Pack</h2>
+      <p class="screen-sub">Your matches and chats.</p>
+    </header>
+    <div class="chat-tabs">
+      <button class="chat-tab active" data-chat-tab="matches">Matches</button>
+      <button class="chat-tab" data-chat-tab="new">New Sniffs <span class="dot"></span></button>
+      <button class="chat-tab" data-chat-tab="plans">Plans</button>
+    </div>
+    <div id="chat-list" class="chat-list"></div>
+  </section>
+
+  <!-- PLANS TAB (Pawty) -->
+  <section id="page-plans" class="page page-plans">
+    <header class="header header-title">
+      <h2 class="screen-title">Pawty</h2>
+      <p class="screen-sub">Upcoming meetups & playdates.</p>
+    </header>
+    <div class="plan-tabs">
+      <button class="plan-tab active">Upcoming</button>
+      <button class="plan-tab">Past</button>
+      <button class="plan-tab">Invites</button>
+    </div>
+    <div id="plans-list" class="plans-list"></div>
+  </section>
+
+  <!-- BORK BOARD TAB -->
+  <section id="page-bork" class="page page-bork">
+    <header class="header header-title">
+      <h2 class="screen-title">Bork Board</h2>
+      <p class="screen-sub">What's happening in your pack.</p>
+    </header>
+    <div id="bork-feed" class="bork-feed"></div>
+  </section>
+
+  <!-- MY PUP TAB -->
+  <section id="page-pup" class="page page-pup">
+    <header class="header header-title">
+      <h2 class="screen-title">My Pup</h2>
+      <p class="screen-sub">This is you.</p>
+    </header>
+    <div id="my-pup-content" class="my-pup-content"></div>
+  </section>
+
+  <!-- BOTTOM TAB BAR -->
+  <nav class="tabs hidden" id="tabs">
+    <button class="tab active" data-tab="sniff">
+      <span class="tab-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <ellipse cx="6.5" cy="10" rx="1.8" ry="2.3"/>
+          <ellipse cx="10.5" cy="6.4" rx="1.6" ry="2.1"/>
+          <ellipse cx="14.5" cy="6.4" rx="1.6" ry="2.1"/>
+          <ellipse cx="18" cy="10" rx="1.8" ry="2.3"/>
+          <path d="M9 14.5c0-1.5 1.3-2.5 3-2.5s3 1 3 2.5c.5.5 2.5 1.5 2.5 3.5 0 1.5-1.2 2.5-2.5 2.5-1 0-1.5-.5-3-.5s-2 .5-3 .5C7.7 20 6.5 19 6.5 17.5c0-2 2-3 2.5-3.5z"/>
+        </svg>
+      </span>
+      <span class="tab-label">Sniff</span>
+    </button>
+    <button class="tab" data-tab="chat">
+      <span class="tab-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+        </svg>
+      </span>
+      <span class="tab-label">Pack</span>
+      <span class="tab-badge">2</span>
+    </button>
+    <button class="tab" data-tab="plans">
+      <span class="tab-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="3" y="4" width="18" height="18" rx="2.5"/>
+          <line x1="16" y1="2" x2="16" y2="6"/>
+          <line x1="8" y1="2" x2="8" y2="6"/>
+          <line x1="3" y1="10" x2="21" y2="10"/>
+          <path d="M12 14.5L12.7 15.9L14.2 16.1L13.1 17.1L13.4 18.6L12 17.9L10.6 18.6L10.9 17.1L9.8 16.1L11.3 15.9Z" fill="currentColor" stroke="none"/>
+        </svg>
+      </span>
+      <span class="tab-label">Pawty</span>
+    </button>
+    <button class="tab" data-tab="bork">
+      <span class="tab-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M17 10c.7-.7 1.69 0 2.5 0a2.5 2.5 0 1 0 0-5 .5.5 0 0 1-.5-.5 2.5 2.5 0 1 0-5 0c0 .81.7 1.8 0 2.5l-7 7c-.7.7-1.69 0-2.5 0a2.5 2.5 0 0 0 0 5c.28 0 .5.22.5.5a2.5 2.5 0 1 0 5-.01c0-.81-.7-1.8 0-2.5z"/>
+        </svg>
+      </span>
+      <span class="tab-label">Bork</span>
+    </button>
+    <button class="tab" data-tab="pup">
+      <span class="tab-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+      </span>
+      <span class="tab-label">My Pup</span>
+    </button>
+  </nav>
+
+  <!-- MATCH MODAL -->
+  <div id="match-modal" class="modal modal-match hidden">
+    <div class="match-bg"></div>
+    <div class="match-content">
+      <div class="match-paw-rain" aria-hidden="true"></div>
+      <h1 class="match-title">It's a<br/>canoodle!</h1>
+      <p class="match-sub" id="match-sub">You and someone sniffed each other.</p>
+      <div class="match-photos">
+        <img id="match-photo-mine" class="match-photo match-photo-mine" alt="Your dog" />
+        <span class="match-paw-burst">🐾</span>
+        <img id="match-photo-theirs" class="match-photo match-photo-theirs" alt="Their dog" />
+      </div>
+      <div class="match-actions">
+        <button class="btn btn-compat btn-full" id="btn-match-compat">See your compatibility ✨</button>
+        <button class="btn btn-primary btn-full" id="btn-match-message">Send a message</button>
+        <button class="btn btn-ghost btn-full" id="btn-match-keep">Keep sniffing</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMPATIBILITY REPORT MODAL -->
+  <div id="compat-modal" class="modal modal-compat hidden">
+    <div class="compat-scroll" id="compat-scroll"></div>
+    <button class="compat-close" id="btn-compat-close" aria-label="Close">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+
+  <!-- DOG PROFILE MODAL -->
+  <div id="dog-modal" class="modal modal-dog hidden">
+    <div class="dog-modal-content" id="dog-modal-content"></div>
+    <button class="dog-modal-close" id="btn-dog-close" aria-label="Close">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+
+  <!-- CHAT CONVERSATION MODAL -->
+  <div id="conv-modal" class="modal modal-conv hidden">
+    <header class="conv-header">
+      <button class="conv-back" id="btn-conv-back" aria-label="Back">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <img id="conv-avatar" class="conv-avatar" alt="" />
+      <div class="conv-name-wrap">
+        <div class="conv-name" id="conv-name">Bruno</div>
+        <div class="conv-sub" id="conv-sub">with Sarah · online now</div>
+      </div>
+      <button class="conv-icon" id="btn-conv-info" aria-label="Profile">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+      </button>
+    </header>
+    <div id="conv-messages" class="conv-messages"></div>
+    <div class="conv-bork-hint">
+      <button id="btn-bork-toggle" class="btn-bork-toggle">
+        <span>🐶</span>
+        <span>Bork Translator: <strong id="bork-state">OFF</strong></span>
+      </button>
+    </div>
+    <div class="conv-input">
+      <button class="conv-input-icon" id="btn-meetup" aria-label="Propose meetup">📅</button>
+      <input id="conv-input-text" type="text" placeholder="Say hi…" autocomplete="off" />
+      <button class="conv-send" id="btn-send" aria-label="Send">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M22 2L11 13M22 2L15 22L11 13L2 9L22 2Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- TAIL TALES STORY MODAL -->
+  <div id="tale-modal" class="modal modal-tale hidden">
+    <div class="tale-progress" id="tale-progress"></div>
+    <button class="tale-close" id="btn-tale-close" aria-label="Close">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div class="tale-bg" id="tale-bg"></div>
+    <div class="tale-overlay"></div>
+    <div class="tale-content">
+      <div class="tale-author" id="tale-author">
+        <img id="tale-author-photo" alt="" />
+        <div>
+          <div class="tale-author-name" id="tale-author-name">Tofu</div>
+          <div class="tale-author-meta" id="tale-author-meta">just now</div>
+        </div>
+      </div>
+      <div class="tale-text" id="tale-text"></div>
+    </div>
+    <button class="tale-tap-area tale-tap-prev" id="tale-tap-prev" aria-label="Previous"></button>
+    <button class="tale-tap-area tale-tap-next" id="tale-tap-next" aria-label="Next"></button>
+  </div>
+
+  <!-- MASCOT BISCUIT REACTIONS -->
+  <div id="mascot" class="mascot hidden">
+    <img id="mascot-photo" alt="Biscuit" />
+    <div class="mascot-bubble" id="mascot-bubble"></div>
+  </div>
+
+  <!-- TREAT SHOWER (Easter egg) -->
+  <div id="treat-shower" class="treat-shower hidden" aria-hidden="true"></div>
+
+  <!-- TOAST -->
+  <div id="toast" class="toast hidden"></div>
+
+</div>
+
+<!-- DESKTOP HINT -->
+<div class="desktop-hint" id="desktop-hint">
+  <p>📱 Canoodle is best on mobile — try resizing this window narrower, or open on your phone.</p>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
